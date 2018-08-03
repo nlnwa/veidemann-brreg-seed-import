@@ -54,7 +54,7 @@ public class RethinkRepoVeidemann implements AutoCloseable {
     public void connectToDb() {
         logger.info("Connecting to Veidemann DB");
         connection = r.connection().hostname(host).port(port).connect();
-//
+
         if (!connection.isOpen()) {
             throw new ReqlDriverError("Unable to connect to host: " + host);
         }

@@ -30,14 +30,6 @@ public class BrregDownloadService {
         stopWatch = new StopWatch("Download data set from brreg.no");
         stopWatch.start();
 
-//        //String downloadURL = settings.getBrregDownloadLink();
-//        //String gzipFile = settings.getGzipFile();
-//        //String jsonFile = settings.getJsonFile();
-//
-//        String gzipFile = "/home/andreasbo/app/brregdownload/orglist.gz";
-//
-//        String jsonFile = "/home/andreasbo/app/brregdownload/orglist.json";
-
         URL url = null;
         try {
             url = new URL(link);

@@ -37,7 +37,7 @@ public class VeidemannEntitySeedUpdater {
         RethinkRepoBrreg brregRepo = null;
 
         try {
-            veidemannRepo = new RethinkRepoVeidemann(dbHost,dbPort, dbUser, dbPassword);
+            veidemannRepo = new RethinkRepoVeidemann(SETTINGS.getDbHost(),SETTINGS.getDbPort(), SETTINGS.getDbUser(), SETTINGS.getDbPassword());
         } catch (Exception ex) {
             logger.error("Could not connect to DB");
         }

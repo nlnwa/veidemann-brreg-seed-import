@@ -12,13 +12,9 @@ import no.nb.nna.veidemann.brregseedimport.settings.Settings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-
 public class OrganizationListUpdater {
     private static final Logger logger = LoggerFactory.getLogger(OrganizationListUpdater.class);
     private static final Settings SETTINGS;
-    private boolean noUpdates = false;
 
 
     static {
@@ -30,7 +26,6 @@ public class OrganizationListUpdater {
     public OrganizationListUpdater() {
     }
 
-    //  public OrganizationListUpdater start() throws Exception {
 
     public boolean updateBrregDb() throws Exception {
 
