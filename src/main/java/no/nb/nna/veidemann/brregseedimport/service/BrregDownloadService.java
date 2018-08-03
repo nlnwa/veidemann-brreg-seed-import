@@ -25,18 +25,18 @@ public class BrregDownloadService {
     public StopWatch getStopWatch() {
         return stopWatch;
     }
-    public void downloadAndUnzipDataset(String link) throws IOException {
+    public void downloadAndUnzipDataset(String link, String input, String output) throws IOException {
 
         stopWatch = new StopWatch("Download data set from brreg.no");
         stopWatch.start();
 
-        //String downloadURL = settings.getBrregDownloadLink();
-        //String gzipFile = settings.getGzipFile();
-        //String jsonFile = settings.getJsonFile();
-
-        String gzipFile = "/home/andreasbo/app/brregdownload/orglist.gz";
-
-        String jsonFile = "/home/andreasbo/app/brregdownload/orglist.json";
+//        //String downloadURL = settings.getBrregDownloadLink();
+//        //String gzipFile = settings.getGzipFile();
+//        //String jsonFile = settings.getJsonFile();
+//
+//        String gzipFile = "/home/andreasbo/app/brregdownload/orglist.gz";
+//
+//        String jsonFile = "/home/andreasbo/app/brregdownload/orglist.json";
 
         URL url = null;
         try {
@@ -46,7 +46,7 @@ public class BrregDownloadService {
         }
         ReadableByteChannel rbc = Channels.newChannel(url.openStream());
 
-        FileOutputStream fos = new FileOutputStream(gzipFile);
+        FileOutputStream fos = new FileOutputStream(input);
         fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
         fos.close();
         rbc.close();
@@ -54,8 +54,8 @@ public class BrregDownloadService {
         byte[] buffer = new byte[1024];
 
         try {
-            GZIPInputStream gzis = new GZIPInputStream(new FileInputStream(gzipFile));
-            FileOutputStream out = new FileOutputStream(jsonFile);
+            GZIPInputStream gzis = new GZIPInputStream(new FileInputStream(input));
+            FileOutputStream out = new FileOutputStream(output);
 
             int len;
             while ((len = gzis.read(buffer)) > 0) {

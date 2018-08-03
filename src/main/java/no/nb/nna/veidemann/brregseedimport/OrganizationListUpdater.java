@@ -34,36 +34,31 @@ public class OrganizationListUpdater {
 
     public boolean updateBrregDb() throws Exception {
 
-        String dbHost = "127.0.0.1";
-        int dbPort = 28015;
-        String dbUser = "admin";
-        String dbPassword = "";
-
-        String DOWNLOAD_LINK = "https://data.brreg.no/enhetsregisteret/api/enheter/lastned";
-        String GZIP_FILE = "/home/andreasbo/app/brregdownload/orglist.gz";
-
-        String JSON_FILE = "/home/andreasbo/app/brregdownload/orglist.json";
+        String downloadLink = SETTINGS.getDownloadLink();
+        String gzipFile = SETTINGS.getDownloadDir() + "/orglist.gz";
+        String jsonFile = SETTINGS.getDownloadDir() + "/orglist.json";
 
         boolean fullImport = false;
         RethinkRepoBrreg db = null;
 
         try {
-            db = new RethinkRepoBrreg(dbHost, dbPort, dbUser, dbPassword);
+            db = new RethinkRepoBrreg(SETTINGS.getDbHost(), SETTINGS.getDbPort(), SETTINGS.getDbUser(),
+                    SETTINGS.getDbPassword());
         } catch (Exception ex) {
             logger.error("Could not connect to DB");
         }
 
         try {
 
-            logger.info("Downloading data set from: " + DOWNLOAD_LINK);
-            System.out.println("Downloading data set from: " + DOWNLOAD_LINK);
-          //  BrregDownloadService downloadService = new BrregDownloadService();
-          //  downloadService.downloadAndUnzipDataset(DOWNLOAD_LINK);
-//            logger.info("Downloading and unpacking file took: " + downloadService.getStopWatch().getTotalTimeSeconds() + " seconds");
-//            System.out.println("Downloading and unpacking file took: " + downloadService.getStopWatch().getTotalTimeSeconds() + " seconds");
+            logger.info("Downloading data set from: " + downloadLink);
+            System.out.println("Downloading data set from: " + downloadLink);
+            BrregDownloadService downloadService = new BrregDownloadService();
+            downloadService.downloadAndUnzipDataset(downloadLink, gzipFile, jsonFile);
+            logger.info("Downloading and unpacking file took: " + downloadService.getStopWatch().getTotalTimeSeconds() + " seconds");
+            System.out.println("Downloading and unpacking file took: " + downloadService.getStopWatch().getTotalTimeSeconds() + " seconds");
 
             Md5sumVerifierService md5sumVerifierService = new Md5sumVerifierService(db);
-            Md5sumVerifierService.STATE md5sumState = md5sumVerifierService.verifyFile(JSON_FILE);
+            Md5sumVerifierService.STATE md5sumState = md5sumVerifierService.verifyFile(jsonFile);
 
             switch (md5sumState) {
                 case NOTHING_NEW: {
@@ -85,7 +80,7 @@ public class OrganizationListUpdater {
                 }
             }
 
-            JsonParser parser = new JsonParser(JSON_FILE);
+            JsonParser parser = new JsonParser(jsonFile);
             BrregImportService service = new BrregImportService(fullImport, db);
 
             logger.info("Reading and parsing the JSON file");
