@@ -28,10 +28,6 @@ public class VeidemannEntitySeedUpdater {
 
     public void updateEntityAndSeed() {
 
-        String dbHost = "127.0.0.1";
-        int dbPort = 28015;
-        String dbUser = "admin";
-        String dbPassword = "";
 
         RethinkRepoVeidemann veidemannRepo = null;
         RethinkRepoBrreg brregRepo = null;
@@ -43,7 +39,7 @@ public class VeidemannEntitySeedUpdater {
         }
 
         try {
-            brregRepo = new RethinkRepoBrreg(dbHost, dbPort, dbUser, dbPassword);
+            brregRepo = new RethinkRepoBrreg(SETTINGS.getDbHost(),SETTINGS.getDbPort(),SETTINGS.getDbUser(), SETTINGS.getDbPassword());
         }catch (Exception e) {
             logger.error("Cold not connect to DB");
         }
