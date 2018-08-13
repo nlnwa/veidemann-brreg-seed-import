@@ -8,6 +8,5 @@ if [ -n "$TRAVIS_TAG" -o "$TRAVIS_BRANCH" == "master" -a "$TRAVIS_EVENT_TYPE" ==
   if [ -n "${TRAVIS_TAG}" ]; then
     DOCKER_TAG=${TRAVIS_TAG}
   fi
-  echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   mvn -B -Pdocker-build -Ddocker.tag="$TRAVIS_TAG" docker:push;
 fi
