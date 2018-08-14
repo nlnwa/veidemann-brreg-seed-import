@@ -11,5 +11,6 @@ public final class Main {
             veidemannUpdate.updateEntityAndSeed();
         }
         System.out.println("Done updating Brreg and Veidemann DB");
+        return;
     }
 }

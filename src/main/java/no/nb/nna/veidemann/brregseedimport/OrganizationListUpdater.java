@@ -46,11 +46,9 @@ public class OrganizationListUpdater {
         try {
 
             logger.info("Downloading data set from: " + downloadLink);
-            System.out.println("Downloading data set from: " + downloadLink);
             BrregDownloadService downloadService = new BrregDownloadService();
             downloadService.downloadAndUnzipDataset(downloadLink, gzipFile, jsonFile);
             logger.info("Downloading and unpacking file took: " + downloadService.getStopWatch().getTotalTimeSeconds() + " seconds");
-            System.out.println("Downloading and unpacking file took: " + downloadService.getStopWatch().getTotalTimeSeconds() + " seconds");
 
             Md5sumVerifierService md5sumVerifierService = new Md5sumVerifierService(db);
             Md5sumVerifierService.STATE md5sumState = md5sumVerifierService.verifyFile(jsonFile);
@@ -58,18 +56,15 @@ public class OrganizationListUpdater {
             switch (md5sumState) {
                 case NOTHING_NEW: {
                     logger.info("No updates needed.");
-                    System.out.println("No updates needed.");
                     return false;
                 }
                 case DO_FULL_IMPORT: {
                     logger.info("Will do a full/complete import.");
-                    System.out.println("Will do a full/complete import.");
                     fullImport = true;
                     break;
                 }
                 case DO_UPDATES_ONLY: {
                     logger.info("Will only import changes or new items.");
-                    System.out.println("Will only import changes or new items.");
                     fullImport = false;
                     break;
                 }
@@ -79,14 +74,10 @@ public class OrganizationListUpdater {
             BrregImportService service = new BrregImportService(fullImport, db);
 
             logger.info("Reading and parsing the JSON file");
-            System.out.println("Reading and parsing the JSON file");
             parser.parseJsonFile();
             logger.info("Reading the file took: " + parser.getStopWatch().getTotalTimeSeconds() + " seconds");
-            System.out.println("Reading the file took: " + parser.getStopWatch().getTotalTimeSeconds() + " seconds");
             service.importEntriesToDB(parser.getOrganzationList());
             logger.info("Importing it all took: " + service.getStopWatch().getTotalTimeSeconds() + " seconds");
-            System.out.println("Importing it all took: " + service.getStopWatch().getTotalTimeSeconds() + " seconds");
-
 
         } finally {
             if (db != null) {

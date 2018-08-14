@@ -39,11 +39,9 @@ public class Md5sumVerifierService {
             if (md5sumLastImportfile.containsKey("md5sum")) {
                 String md5sumFraDatabase = (String) md5sumLastImportfile.get("md5sum");
                 logger.info("Retrieving md5 sum from existing dataset and comparing it to the new one");
-                System.out.println("Retrieving md5 sum from existing dataset and comparing it to the new one");
                 // sjekk om md5sum fra database er lik den fra fil:
                 if (md5sumFraDatabase.equalsIgnoreCase(myChecksum)) {
                     logger.info("New and old dataset is the same. Update not required");
-                    System.out.println("New and old dataset is the same. Update not required");
                     return STATE.NOTHING_NEW;
                 } else {
                     // sjekk om md5sum fra database er lik en 'initiell' verdi, som betyr at vi
@@ -52,7 +50,6 @@ public class Md5sumVerifierService {
                         doFullImport = true;
                     }
                     logger.info("New dataset contains update. Will continue to update database");
-                    System.out.println("New dataset contains update. Will continue to update database");
                     repo.updateLastMd5sumForImportFile(md5sumLastImportfile,myChecksum);
                     foundChangesInFile = true;
                 }

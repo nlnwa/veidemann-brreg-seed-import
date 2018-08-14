@@ -46,7 +46,6 @@ public class CompanyService {
     public void createListAndCheckForUpdates() {
         StopWatch stopWatch = new StopWatch("Create_Seed_and_Entity_List");
         logger.info("Starting job with creating / updating entities and seeds in Veidemann DB, with available data in Brreg DB");
-        System.out.println("Starting job with creating / updating entities and seeds in Veidemann DB, with available data in Brreg DB");
         if (!veidemannRepo.isConnected()) {
             veidemannRepo.connectToDb();
             logger.info("Connected to Veidemann DB");
@@ -54,11 +53,9 @@ public class CompanyService {
         try {
             stopWatch.start();
             List<HashMap> objectsWithWebpage = brregRepo.findObjectsWithWebpage();
-            System.out.println("Har " + objectsWithWebpage.size() + "objekter med hjemmeside");
             createEntityAndSeedList(objectsWithWebpage);
             stopWatch.stop();
             logger.info("Fetching data and creating the list took in all: " + stopWatch.getTotalTimeSeconds() + " seconds");
-            System.out.println("Fetching data and creating the list took in all: " + stopWatch.getTotalTimeSeconds() + " seconds");
             updateOrInsertEntityWithSeed();
 
         } catch (IOException e) {
@@ -77,7 +74,6 @@ public class CompanyService {
 
     private void createEntityAndSeedList(List<HashMap> resultFromBromBrregDb) throws IOException {
         logger.info("Creating lists with Enitity and Seed objects from brreg data");
-        System.out.println("Creating lists with Enitity and Seed objects from brreg data");
         List<OrganizationFromDb> OrganizationList = getCompaniesFromList(resultFromBromBrregDb);
 
         // Går gjennom ArrayList med resultatet fra Brreg DB og lager entitet/seed objekter
@@ -258,8 +254,6 @@ public class CompanyService {
 
         logger.info("Skipped creating: " + badUrlCounter + " entities/seeds because of invalid Url");
         logger.info("Will start checking the created list of entities/seeds with the existing ones in Veidemann DB: ");
-        System.out.println("Skipped creating: " + badUrlCounter + " entities/seeds because of invalid Url");
-        System.out.println("Will start checking the created list of entities/seeds with the existing ones in Veidemann DB: ");
         StopWatch stopWatch = new StopWatch("Update_Veidemann_DB");
         stopWatch.start();
         int insertedEntities = 0;
@@ -301,11 +295,9 @@ public class CompanyService {
                             }
                         }
                         logger.info("Inserting new entity and seed for id: " + ce.getId() + " to Veidemann DB");
-                        System.out.println("Inserting new entity and seed for id: " + ce.getId() + " to Veidemann DB");
                     }
                     if (entitiesCheckedForUpdates >= printLimit) {
                         logger.info("Entities/seed checked for updates: " + entitiesCheckedForUpdates + "/" + entitiesToCheck);
-                        System.out.println("Entities/seed checked for updates: " + entitiesCheckedForUpdates + "/" + entitiesToCheck);
                         printLimit += 5000;
                     }
                     // Får tilbake flere oppføringer med dette organisasjonsnummeret.
@@ -324,10 +316,5 @@ public class CompanyService {
         logger.info("The operation took: " + stopWatch.getTotalTimeSeconds() + " seconds. ");
         logger.info("New entities created in Veidemann DB: " + insertedEntities + " ,with " + insertedSeeds + " associated seeds");
         logger.info("Number of existing entities and seeds checked for updates: " + entitiesCheckedForUpdates);
-
-        System.out.println("Done with importing/updating entities and seeds in Veidemann DB");
-        System.out.println("The operation took: " + stopWatch.getTotalTimeSeconds() + " seconds. ");
-        System.out.println("New entities created in Veidemann DB: " + insertedEntities + " ,with " + insertedSeeds + " associated seeds");
-
     }
 }

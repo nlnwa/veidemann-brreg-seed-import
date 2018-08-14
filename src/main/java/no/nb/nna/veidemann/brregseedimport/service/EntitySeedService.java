@@ -60,7 +60,6 @@ public class EntitySeedService {
             // Sjekker om navnet på entiteten er endret
             if (!(brregEntityName.equalsIgnoreCase(veidemannEntityName))) {
                 logger.info("The name of entity: "+brregEntityId+  " ,has changed and will be updated");
-                System.out.println("The name of entity: "+brregEntityId+  " ,has changed and will be updated");
                 // Oppdaterer navn og setter nytt timestamp
                 veidemannRepo.updateEntityName(brregEntityId, brregEntityName);
                 veidemannRepo.updateEntityTimestamp(brregEntityId, brregEntityLastMod);
@@ -68,7 +67,6 @@ public class EntitySeedService {
             // Sjekker om beskrivelsen for entiteten er endret
             if (!(brregEntityDescription.equalsIgnoreCase(veidemannEntityDescription))) {
                 logger.info("The description of entity: "+brregEntityId+  " ,has changed and will be updated");
-                System.out.println("The description of entity: "+brregEntityId+  " ,has changed and will be updated");
                 // Oppdaterer beskrivelsen og setter nytt timestamp
                 veidemannRepo.updateEntityDescription(brregEntityId,brregEntityDescription);
                 veidemannRepo.updateEntityTimestamp(brregEntityId, brregEntityLastMod);
@@ -116,14 +114,12 @@ public class EntitySeedService {
            // Sjekker om seed har byttet navn. Oppdaterer navn og timestamp om det er tilfellet.
             if (!(brregSeedName.equalsIgnoreCase(veidemannSeedName))) {
                 logger.info("The name of the seed for entity: " +brregSeedEntityId+ " ,has changed and will be updated");
-                System.out.println("The name of the seed for entity: " +brregSeedEntityId+ " ,has changed and will be updated");
                 veidemannRepo.updateSeedName(brregSeedEntityId, brregSeedName,brregSeedOrgnrLabel);
                 veidemannRepo.updateSeedTimestamp(brregSeedEntityId, brregSeedOrgnrLabel, brregSeedLastMod);
             }
             // Sjekker om seed har endret scope. Oppdaterer navn og timestamp om det er tilfellet.
             if (!(brregSeedScope.equals(veidemannSeedScope))) {
                 logger.info("The Scope of the seed for entity: " +brregSeedEntityId+ " ,has changed and will be updated");
-                System.out.println("The Scope of the seed for entity: " +brregSeedEntityId+ " ,has changed and will be updated");
                 veidemannRepo.updateSeedScope(brregSeedEntityId, brregSeedScope, brregSeedOrgnrLabel);
                 veidemannRepo.updateSeedTimestamp(brregSeedEntityId, brregSeedOrgnrLabel,brregSeedLastMod);
             }
